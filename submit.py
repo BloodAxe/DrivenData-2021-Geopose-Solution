@@ -61,15 +61,30 @@ def ensemble_from_checkpoints(
 
 @torch.no_grad()
 def compute_predictions(
-    model: nn.Module, dataset: OverheadGeoposeDataset, output_dir: str, batch_size=1, num_workers=1, fp16=True, desc=None
+    model: nn.Module,
+    dataset: OverheadGeoposeDataset,
+    output_dir: str,
+    batch_size=1,
+    num_workers=1,
+    fp16=True,
+    visualize=False,
+    desc=None,
 ) -> None:
     model = model.cuda().eval()
-    loader = DataLoader(dataset, batch_size=batch_size, num_workers=num_workers, pin_memory=True, drop_last=False,)
+    loader = DataLoader(
+        dataset,
+        batch_size=batch_size,
+        num_workers=num_workers,
+        pin_memory=True,
+        drop_last=False,
+    )
 
     submission_dir = os.path.join(output_dir, "submission")
-    visualization_dir = os.path.join(output_dir, "visualization")
     os.makedirs(submission_dir, exist_ok=True)
-    os.makedirs(visualization_dir, exist_ok=True)
+
+    visualization_dir = os.path.join(output_dir, "visualization")
+    if visualize:
+        os.makedirs(visualization_dir, exist_ok=True)
 
     for batch in tqdm(loader, desc=desc):
         image = batch[INPUT_IMAGE_KEY]
@@ -105,7 +120,7 @@ def compute_predictions(
             json.dump(vflow, open(vfl_fname, "w"))
 
             # Visualizations
-            if True:
+            if visualize:
                 img_bgr = rgb_image_from_tensor(image, DATASET_MEAN, DATASET_STD)
                 max_agl = agl_cm.max()
                 pred_agl = (255.0 * agl_cm / max_agl).astype(np.uint8)
@@ -131,7 +146,7 @@ def compute_predictions(
 
 
 @torch.no_grad()
-def run_predict(config_fname: str, dataset: OverheadGeoposeDataset, force=False):
+def run_predict(config_fname: str, dataset: OverheadGeoposeDataset, force=False, visualize=False):
     if isinstance(config_fname, str):
         config: Dict = OmegaConf.load(config_fname)
     else:
@@ -154,7 +169,13 @@ def run_predict(config_fname: str, dataset: OverheadGeoposeDataset, force=False)
 
     model, checkpoint = ensemble_from_checkpoints(checkpoint_fnames=models, tta=tta, tta_mode=tta_mode)
     compute_predictions(
-        model, dataset=dataset, output_dir=submission_dir, batch_size=batch_size, num_workers=num_workers, fp16=fp16
+        model,
+        dataset=dataset,
+        output_dir=submission_dir,
+        batch_size=batch_size,
+        num_workers=num_workers,
+        fp16=fp16,
+        visualize=visualize,
     )
 
 
@@ -167,12 +188,13 @@ def main():
         type=str,
         default=os.environ.get("DRIVENDATA_OVERHEAD_GEOPOSE", "d:/datasets/overhead-geopose-challenge"),
     )
+    parser.add_argument("--visualize", action="store_true")
     args = parser.parse_args()
     print(args.config)
 
     for config in args.config:
         test_dataset = OverheadGeoposeDataModule.get_test_dataset(args.data_dir)
-        run_predict(config, test_dataset)
+        run_predict(config, test_dataset, visualize=args.visualize)
 
 
 if __name__ == "__main__":
