@@ -5,8 +5,8 @@ albumentations==1.0.2
 omegaconf==2.1.0.dev26
 hydra-core==1.1.0.dev6
 torch-optimizer==0.1.0
-git+https://github.com/BloodAxe/catalyst.git
-git+https://github.com/BloodAxe/pytorch-toolbelt.git
+git+https://github.com/BloodAxe/catalyst.git@9e3a4b6218396e9a82f6343e9ea48af546bf010a
+git+https://github.com/BloodAxe/pytorch-toolbelt.git@9e3a4b6218396e9a82f6343e9ea48af546bf010a
 git+https://github.com/lessw2020/Ranger21.git@aab030163c4e0a5fe2608b6b5a69471a7983853f
 Pillow==8.2.0
 Fire
