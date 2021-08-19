@@ -84,7 +84,7 @@ Inference time of the ensembles (Measured on RTX 3090)
 
 |                                                    Config  | Inference Time | Sec/Image  | Num Models |
 |------------------------------------------------------------|----------------|------------|------------|
-| fp32_0.9083_b6_rdtsc_unet_fold9                            |          3h30m |  12.5s/img |          3 |
+| fp32_0.9083_b6_rdtsc_unet_fold9                            |          1h20m |     6s/img |          3 |
 | fp32_0.9202_b7_fold0_b7_rdtsc_fold1_b6_rdtsc_fold9_bo3_d4  |                |            |          9 |  
 | fp32_0.9240_b6_rdtsc_unet_fold9_b7_unet_fold0_d4_bo1       |                |            |          2 |
 | fp32_0.8910_b7_fold0_b7_rdtsc_fold1_b6_rdtsc_fold89_bo1_d4 |             3h |    11s/img |          4 |

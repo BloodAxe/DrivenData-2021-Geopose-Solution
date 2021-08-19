@@ -9,7 +9,7 @@ ensemble:
     - https://github.com/BloodAxe/DrivenData-2021-Geopose-Solution/releases/download/1.0/210714_15_13_b6_rdtsc_unet_fold9_train.90.pth
 
 inference:
-  batch_size: 4
+  batch_size: 1
   num_workers: 4
   fp16: False
 
