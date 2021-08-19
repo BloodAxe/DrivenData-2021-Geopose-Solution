@@ -86,7 +86,7 @@ Inference time of the ensembles (Measured on RTX 3090)
 |------------------------------------------------------------|----------------|------------|------------|
 | fp32_0.9083_b6_rdtsc_unet_fold9                            |          1h20m |     6s/img |          3 |
 | fp32_0.9202_b7_fold0_b7_rdtsc_fold1_b6_rdtsc_fold9_bo3_d4  |             7h |    26s/img |          9 |  
-| fp32_0.9240_b6_rdtsc_unet_fold9_b7_unet_fold0_d4_bo1       |             2h |     9s/img |          2 |
+| fp32_0.9240_b6_rdtsc_unet_fold9_b7_unet_fold0_d4_bo1       |             2h |     7s/img |          2 |
 | fp32_0.8910_b7_fold0_b7_rdtsc_fold1_b6_rdtsc_fold89_bo1_d4 |             3h |    11s/img |          4 |
 
 Disabling D4 TTA or switching to D2 would increase inference speed by factor of 8 and 2 accordingly at a price of slightly lower R2 score.
